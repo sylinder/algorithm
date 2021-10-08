@@ -72,8 +72,6 @@ public class Solution {
 
 
 
-
-
 #### 删除有序链表中重复的元素
 
 - 题目： 给出一个升序排序的链表，删除链表中的所有重复出现的元素，只保留原链表中只出现一次的元素。例如： 给出的链表为1→2→3→3→4→4→5， 返回1→2→5
@@ -427,6 +425,83 @@ public class Solution {
             cur.next = list2;
         }
         return dummy.next;
+    }
+}
+```
+
+
+
+### 单链表的排序
+
+- 题目： 给定一个节点数为n的无序单链表，对其按升序排序。
+- 思路： 堆排序。分别将链表的节点加入到堆中，然后一个一个poll出来即可。（注意：最后一个节点的next指针要设为null，否则可能会出现环形链表的问题。）
+
+```java
+public class Solution {
+    /**
+     * 
+     * @param head ListNode类 the head node
+     * @return ListNode类
+     */
+    public ListNode sortInList (ListNode head) {
+        // write code here
+        PriorityQueue<ListNode> heap = new PriorityQueue<>((n1, n2) -> n1.val - n2.val);
+        while (head != null) {
+            heap.add(head);
+            head = head.next;
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (!heap.isEmpty()) {
+            cur.next = heap.poll();
+            cur = cur.next;
+        }
+        cur.next = null;
+        return dummy.next;
+    }
+}
+```
+
+
+
+### 判断一个链表是否为回文结构
+
+- 题目： 给定一个链表，请判断该链表是否为回文结构。
+- 思路： 快慢指针法将链表分为两段，然后将一段逆序（反转链表或者使用栈），再逐个对比即可。
+
+```java
+public class Solution {
+    /**
+     * 
+     * @param head ListNode类 the head
+     * @return bool布尔型
+     */
+    public boolean isPail (ListNode head) {
+        // write code here
+        if (head == null || head.next == null) {
+            return true;
+        }
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode fast = dummy, slow = dummy;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        Stack<Integer> stack = new Stack<>();
+        ListNode cur = slow.next;
+        while (cur != null) {
+            stack.push(cur.val);
+            cur = cur.next;
+        }
+        cur = head;
+        while (!stack.isEmpty()) {
+            if (cur.val != stack.pop()) {
+                return false;
+            }
+            cur = cur.next;
+        }
+        return true;
     }
 }
 ```
