@@ -1,3 +1,26 @@
+### 反转链表
+
+- 题目： 输入一个长度为n链表，反转链表后，输出新链表的表头。 
+- 思路：略。
+
+```java 
+public class Solution {
+    public ListNode ReverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
+
+
 #### 删除链表的倒数第n个节点
 
 - 题目：   给定一个链表，删除链表的倒数第 n 个节点并返回链表的头指针
