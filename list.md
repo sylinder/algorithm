@@ -29,7 +29,7 @@ public class Solution {
    给出的链表为: 1→2→3→4→5， n=2.
   删除了链表的倒数第 n 个节点之后,链表变为1→2→3→5
 
-- 解题思路：快慢指针法， 快指针先走 n 步，然后慢指针和快指针一起往后走，指导快指针到达最后一个，这个时候慢指针的位置就是倒数第 n 个节点的前一个，slow.next = slow.next.next 即可
+- 解题思路：快慢指针法， 快指针先走 n 步，然后慢指针和快指针一起往后走，直到快指针到达最后一个，这个时候慢指针的位置就是倒数第 n 个节点的前一个，slow.next = slow.next.next 即可
 
 ```java
 import java.util.*;
@@ -250,6 +250,33 @@ public class Solution {
             cur = next;
         }
         return pre;
+    }
+}
+```
+
+
+
+### 判断链表中是否有环
+
+- 题目：判断给定的链表中是否有环。如果有环则返回true，否则返回false。
+- 思路：快慢指针法。快指针每次走两步，慢指针每次走一步，如果有环，则快慢指针肯定会再次相遇。
+
+```java
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 ```
