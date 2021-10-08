@@ -607,3 +607,38 @@ public class Solution {
 }
 ```
 
+
+
+### 合并k个已排序的链表
+
+- 题目： 合并 k 个升序的链表并将结果作为一个升序的链表返回其头节点。  
+- 思路： 将这k个链表加入小根堆中（空链表除外）就好了。
+
+```java
+public class Solution {
+    public ListNode mergeKLists(ArrayList<ListNode> lists) {
+        if (lists == null || lists.size() == 0) {
+            return null;
+        }
+        PriorityQueue<ListNode> heap = new PriorityQueue<>((o1, o2) -> o1.val - o2.val);
+        for (ListNode list : lists) {
+            if (list != null) {
+                heap.add(list);
+            }
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (!heap.isEmpty()) {
+            ListNode list = heap.poll();
+            cur.next = list;
+            cur = cur.next;
+            list = list.next;
+            if (list != null) {
+                heap.add(list);
+            }
+        }
+        return dummy.next;
+    }
+}
+```
+
