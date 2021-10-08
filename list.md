@@ -542,3 +542,47 @@ public class Solution {
 }
 ```
 
+
+
+### 链表内指定区间反转
+
+- 题目： 将一个节点数为 size 链表 m 位置到 n 位置之间的区间反转，要求时间复杂度 O(n)，空间复杂度 O(1)。
+- 思路： 将链表分为三段，`1 ~ m -1`、`m ~ n` 、`n + 1 ~ size`。反转中间那段，然后再连起来即可。
+
+```java
+public class Solution {
+    /**
+     * 
+     * @param head ListNode类 
+     * @param m int整型 
+     * @param n int整型 
+     * @return ListNode类
+     */
+    public ListNode reverseBetween (ListNode head, int m, int n) {
+        // write code here
+        if (head == null || head.next == null || m >= n) {
+            return head;
+        }
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode firstTail = dummy;
+        for (int i = 0; i < m - 1; i++) {
+            firstTail = firstTail.next;
+        }
+        ListNode cur = firstTail.next, secondTail = firstTail.next;
+        ListNode pre = null;
+        int i = m;
+        while (cur != null && i <= n) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+            i++;
+        }
+        firstTail.next = pre;
+        secondTail.next = cur;
+        return dummy.next;
+    }
+}
+```
+
