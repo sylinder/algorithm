@@ -586,3 +586,24 @@ public class Solution {
 }
 ```
 
+
+
+### 两个链表的第一个公共节点
+
+- 题目： 输入两个无环的单向链表，找出它们的第一个公共结点，如果没有公共节点则返回空。
+- 思路： 定义两个指针，指针1沿着链表1跑完就去跑链表2， 指针2沿着链表2跑完就去跑链表1。只要保证同时起跑并且每次走一步，如果有公共节点，肯定会在公共节点相遇（因为两个指针所有的步数是一样的）。如果没有公共节点，那么两个指针最终都会为null。
+
+```java
+public class Solution {
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        ListNode list1 = pHead1;
+        ListNode list2 = pHead2;
+        while (list1 != list2) {
+            list1 = list1 == null ? pHead2 : list1.next;
+            list2 = list2 == null ? pHead1 : list2.next;
+        }
+        return list1;
+    }
+}
+```
+
