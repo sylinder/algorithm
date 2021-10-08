@@ -506,3 +506,39 @@ public class Solution {
 }
 ```
 
+
+
+### 链表的奇偶重排
+
+- 题目：   给定一个单链表，请设定一个函数，将链表的奇数位节点和偶数位节点分别放在一起，重排后输出。 注意是节点的编号而非节点的数值。 
+- 思路： 将原链表分为两个链表，然后让第一个链表的尾节点指向第二个链表即可。
+
+```java
+public class Solution {
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param head ListNode类 
+     * @return ListNode类
+     */
+    public ListNode oddEvenList (ListNode head) {
+        // write code here
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode list1 = head;
+        ListNode list2 = head.next;
+        ListNode cur1 = list1, cur2 = list2;
+        while (cur2 != null && cur2.next != null) {
+            cur1.next = cur2.next;
+            cur1 = cur1.next;
+            cur2.next = cur1.next;
+            cur2 = cur2.next;
+        }
+        cur1.next = list2;
+        return list1;
+    }
+}
+```
+
