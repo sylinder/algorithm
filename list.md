@@ -281,3 +281,74 @@ public class Solution {
 }
 ```
 
+
+
+### 两个链表生成相加链表
+
+- 题目：  假设链表中每一个节点的值都在 0 - 9 之间，那么链表整体就可以代表一个整数。 
+
+    给定两个这种链表，请生成代表两个整数相加值的结果链表。 比如，输入：`[9, 3, 7], [6, 3]`， 输出： `[1, 0, 0, 0]`。
+
+- 思路： 
+
+  - 反转两个链表
+  - 将反转后的两个链表逐个相加。（注意carry位）
+  - 反转相加后的链表
+
+```java
+public class Solution {
+    /**
+     * 
+     * @param head1 ListNode类 
+     * @param head2 ListNode类 
+     * @return ListNode类
+     */
+    public ListNode addInList (ListNode head1, ListNode head2) {
+        // write code here
+        if (head1 == null) {
+            return head2;
+        }
+        if (head2 == null) {
+            return head1;
+        }
+        ListNode list1 = reverseList(head1);
+        ListNode list2 = reverseList(head2);
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        int carry = 0;
+        while (list1 != null || list2 != null) {
+            int value1 = list1 == null ? 0 : list1.val;
+            int value2 = list2 == null ? 0 : list2.val;
+            ListNode temp = new ListNode((value1 + value2 + carry) % 10);
+            cur.next = temp;
+            cur = temp;
+            carry = (value1 + value2 + carry) / 10;
+            if (list1 != null) {
+                list1 = list1.next;
+            }
+            if (list2 != null) {
+                list2 = list2.next;
+            }
+        }
+        if (carry != 0) {
+            cur.next = new ListNode(carry);
+        }
+        return reverseList(dummy.next);
+    }
+    
+    private ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = null, cur = head;
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
