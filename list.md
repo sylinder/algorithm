@@ -352,3 +352,49 @@ public class Solution {
 }
 ```
 
+
+
+### 链表中环的入口节点
+
+- 题目： 给一个长度为n链表，若其中包含环，请找出该链表的环的入口结点，否则，返回null。
+- 思路：快慢指针。快指针每次走两步，慢指针每次走一步，如果有环，快指针肯定会和慢指针相遇。相遇之后再遍历一遍环中的节点，得到环中节点的个数`x`。然后让两个指针从头开始遍历链表，快指针先跑`x`步，然后快慢指针同时每次走一步，直到相遇，相遇的节点就是环的入口节点。
+
+```java
+public class Solution {
+
+    public ListNode EntryNodeOfLoop(ListNode pHead) {
+        if (pHead == null || pHead.next == null) {
+            return null;
+        }
+        ListNode fast = pHead;
+        ListNode slow = pHead;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                break;
+            }
+        }
+        if (fast != slow) {
+            return null;
+        }
+        fast = fast.next;
+        int num = 1;
+        while (fast != slow) {
+            num++;
+            fast = fast.next;
+        }
+        fast = pHead;
+        for (int i = 0; i < num; i++) {
+            fast = fast.next;
+        }
+        slow = pHead;
+        while (fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+```
+
