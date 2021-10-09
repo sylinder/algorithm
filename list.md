@@ -72,7 +72,41 @@ public class Solution {
 
 
 
-#### 删除有序链表中重复的元素
+### 删除有序链表中重复的元素
+
+- 题目： 删除给出链表中的重复元素（链表中元素从小到大有序），使链表中的所有元素都只出现一次。例如， 输入： `{1, 1, 2}`， 输出： `{1, 2}`。
+- 思路： 略。
+
+```java
+public class Solution {
+    /**
+     * 
+     * @param head ListNode类 
+     * @return ListNode类
+     */
+    public ListNode deleteDuplicates (ListNode head) {
+        // write code here
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode cur = head;
+        while (cur != null) {
+            if (cur.next != null && cur.val == cur.next.val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return head;
+    }
+}
+```
+
+
+
+
+
+#### 删除有序链表中重复的元素Ⅱ
 
 - 题目： 给出一个升序排序的链表，删除链表中的所有重复出现的元素，只保留原链表中只出现一次的元素。例如： 给出的链表为1→2→3→3→4→4→5， 返回1→2→5
 - 解题思路：双指针。pre指针指向已经处理完那部分的最后节点，cur指针指向正要处理的节点。如果cur有重复，则删除所有重复节点。否则，两个指针都往后挪一步。为了统一处理，可以添加一个dummy节点。
