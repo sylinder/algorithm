@@ -642,3 +642,44 @@ public class Solution {
 }
 ```
 
+
+
+### 链表中倒数最后k个节点
+
+- 题目：   输入一个长度为 n 的链表，设链表中的元素的值为 ai ，输出一个链表，该输出链表包含原链表中从倒数第 k 个结点至尾节点的全部节点。 如果该链表长度小于k，请返回一个长度为 0 的链表。
+- 思路： 略。
+
+```java
+public class Solution {
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param pHead ListNode类 
+     * @param k int整型 
+     * @return ListNode类
+     */
+    public ListNode FindKthToTail (ListNode pHead, int k) {
+        // write code here
+        if (pHead == null || k <= 0) {
+            return null;
+        }
+        ListNode fast = pHead;
+        for (int i = 0; i < k; i++) {
+            if (fast == null) {
+                return null;
+            }
+            fast = fast.next;
+        }
+        ListNode slow = pHead;
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+```
+
+
+
