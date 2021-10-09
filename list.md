@@ -683,3 +683,38 @@ public class Solution {
 
 
 
+### 划分链表
+
+- 题目： 给出一个长度为 n 的单链表和一个值 x ，单链表的每一个值为 listi ，请返回一个链表的头结点，要求新链表中小于 x 的节点全部在大于等于 x 的节点左侧，并且两个部分之内的节点之间与原来的链表要保持相对顺序不变。例如， 输入`{1, 4, 3, 2, 5, 2}, 3`， 输出 `{1, 2, 2, 4, 3, 5}`。
+- 思路： 将链表的节点根据大小一分为二，list1的所有节点都小于x，list2的所有节点都不小于x，然后再将list1的尾节点指向list2即可。
+
+```java
+public class Solution {
+    /**
+     * 
+     * @param head ListNode类 
+     * @param x int整型 
+     * @return ListNode类
+     */
+    public ListNode partition (ListNode head, int x) {
+        // write code here
+        ListNode firstDummy = new ListNode(-1);
+        ListNode secondDummy = new ListNode(-1);
+        ListNode cur = head, firstCur = firstDummy, secondCur = secondDummy;
+        while (cur != null) {
+            if (cur.val < x) {
+                firstCur.next = cur;
+                firstCur = firstCur.next;
+            } else {
+                secondCur.next = cur;
+                secondCur = secondCur.next;
+            }
+            cur = cur.next;
+        }
+        secondCur.next = null;
+        firstCur.next = secondDummy.next;
+        return firstDummy.next;
+    }
+}
+```
+
