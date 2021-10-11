@@ -197,3 +197,37 @@ class Solution {
 }
 ```
 
+
+
+### 在二叉树中找到两个节点的最近公共祖先
+
+- 题目： 给定一棵二叉树(保证非空)以及这棵树上的两个节点对应的val值 o1 和 o2，请找到 o1 和 o2 的最近公共祖先节点。
+- 思路： 略。
+
+```java
+public class Solution {
+    public int lowestCommonAncestor (TreeNode root, int o1, int o2) {
+        TreeNode node = findNode(root, o1, o2);
+        if (node == null) {
+            return -1;
+        }
+        return node.val;
+    }
+    
+    private TreeNode findNode(TreeNode root, int o1, int o2) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == o1 || root.val == o2) {
+            return root;
+        }
+        TreeNode left = findNode(root.left, o1, o2);
+        TreeNode right = findNode(root.right, o1, o2);
+        if (left != null && right != null) {
+            return root;
+        }
+        return left == null ? right : left;
+    }
+}
+```
+
