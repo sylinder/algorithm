@@ -199,6 +199,98 @@ class Solution {
 
 
 
+### 二叉树的右视图
+
+- 题目： 给定一个二叉树的 **根节点** `root`，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+- 思路： 层次遍历，然后取每一层最后一个即可。
+
+```java
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size > 0) {
+                root = queue.poll();
+                if (size == 1) {
+                    result.add(root.val);
+                }
+                if (root.left != null) {
+                    queue.add(root.left);
+                }
+                if (root.right != null) {
+                    queue.add(root.right);
+                }
+                size--;
+            }
+        }
+        return result;
+    }
+}
+```
+
+
+
+
+
+### 二叉树的锯齿形层次遍历
+
+- 题目： 给定一个二叉树，返回其节点值的锯齿形层序遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
+- 思路： 使用两个栈， stack1用在奇数层，stack2用在偶数层。奇数层的时候将节点从stack1中pop出来，并将对应的子节点从左到右push到stack2中；偶数层的时候将节点从stack2中pop出来，并将对应的子节点从右向左push到stack1中，直到stack1和stack2都为空。
+
+```java
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Stack<TreeNode> oddStack = new Stack<>();
+        Stack<TreeNode> evenStack = new Stack<>();
+        oddStack.push(root);
+        int level = 1;
+        while (!oddStack.isEmpty() || !evenStack.isEmpty()) {
+            List<Integer> list = new ArrayList<>();
+            if (level % 2 == 1) {
+                while (!oddStack.isEmpty()) {
+                    root = oddStack.pop();
+                    list.add(root.val);
+                    if (root.left != null) {
+                        evenStack.push(root.left);
+                    }
+                    if (root.right != null) {
+                        evenStack.push(root.right);
+                    }
+                }
+            } else {
+                while (!evenStack.isEmpty()) {
+                    root = evenStack.pop();
+                    list.add(root.val);
+                    if (root.right != null) {
+                        oddStack.push(root.right);
+                    }
+                    if (root.left != null) {
+                        oddStack.push(root.left);
+                    }
+                }
+            }
+            result.add(list);
+            level++;
+        }
+        return result;
+    }
+}
+```
+
+
+
+
+
 ### 在二叉树中找到两个节点的最近公共祖先
 
 - 题目： 给定一棵二叉树(保证非空)以及这棵树上的两个节点对应的val值 o1 和 o2，请找到 o1 和 o2 的最近公共祖先节点。
