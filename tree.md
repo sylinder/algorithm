@@ -199,6 +199,39 @@ class Solution {
 
 
 
+### N叉树的层次遍历
+
+- 题目： 给定一个 N 叉树，返回其节点值的*层序遍历*。（即从左到右，逐层遍历）。
+- 思路： 略。
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+            while (size-- > 0) {
+                root = queue.poll();
+                list.add(root.val);
+                queue.addAll(root.children);
+            }
+            result.add(list);
+        }
+        return result;
+    }
+}
+```
+
+
+
+
+
 ### 二叉树的右视图
 
 - 题目： 给定一个二叉树的 **根节点** `root`，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
