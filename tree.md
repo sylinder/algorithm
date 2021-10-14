@@ -356,3 +356,55 @@ public class Solution {
 }
 ```
 
+
+
+### 路径总和
+
+- 题目： 给你二叉树的根节点 root 和一个表示目标和的整数 targetSum ，判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 。
+- 思路： 略。
+
+```java
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        } 
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+}
+```
+
+
+
+### 路径总和Ⅱ
+
+- 题目： 给你二叉树的根节点 `root` 和一个整数目标和 `targetSum` ，找出所有 **从根节点到叶子节点** 路径总和等于给定目标和的路径。
+- 思路： 略。
+
+```java
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> result = new ArrayList<>();
+        Deque<Integer> deque = new LinkedList<>();
+        doPathSum(root, result, deque, targetSum);
+        return result;
+    }
+
+    private void doPathSum(TreeNode root, List<List<Integer>> result, Deque<Integer> deque, int targetSum) {
+        if (root == null) {
+            return ;
+        }
+        deque.addLast(root.val);
+        if (root.left == null && root.right == null && root.val == targetSum) {
+            result.add(new LinkedList<>(deque));
+        }
+        doPathSum(root.left, result, deque, targetSum - root.val);
+        doPathSum(root.right, result, deque, targetSum - root.val);
+        deque.removeLast();
+    }
+}
+```
+
