@@ -408,3 +408,49 @@ class Solution {
 }
 ```
 
+
+
+### 验证二叉搜索树
+
+- 题目：给你一个二叉树的根节点root， 判断其是否是一个有效的二叉搜索树。
+- 思路： 
+  - 中序遍历一遍，比较每个节点和上一个节点的值，如果不大于，则为false。
+  - BST的每个子树都应该在某个范围之内，从根节点开始，逐渐缩小那个范围，如果子树有节点不在这个范围内，则为false。
+
+```java
+class Solution {
+    private long pre = Long.MIN_VALUE;
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        boolean left = isValidBST(root.left);
+        if (root.val <= pre) {
+            return false;
+        }
+        pre = root.val;
+        boolean right = isValidBST(root.right);
+        return left && right;
+    }
+}
+```
+
+```java
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private boolean isValidBST(TreeNode root, long min, long max) {
+        if (root == null) {
+            return true;
+        }
+        if (root.val <= min || root.val >= max) {
+            return false;
+        }
+        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
+    }
+}
+```
+
