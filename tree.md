@@ -485,3 +485,21 @@ class Solution {
 }
 ```
 
+
+
+### 二叉树的最大深度
+
+- 题目： 给定一个二叉树，找出其最大深度。
+- 思路： 略。
+
+```java
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+}
+```
+
