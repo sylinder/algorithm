@@ -503,3 +503,42 @@ class Solution {
 }
 ```
 
+
+
+### 从前序与中序遍历序列构造二叉树
+
+- 题目： 给定一棵树的前序遍历 `preorder` 与中序遍历 `inorder`。请构造二叉树并返回其根节点。
+- 思路： 注意下标。
+
+```java
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder == null || inorder == null || preorder.length == 0 || preorder.length != inorder.length) {
+            return null;
+        }
+        return buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
+    }
+
+    private TreeNode buildTree(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd) {
+        if (preStart > preEnd) {
+            return null;
+        }
+        int rootVal = preorder[preStart];
+        TreeNode root = new TreeNode(rootVal);
+        int index = findIndex(inorder, rootVal);
+        root.left = buildTree(preorder, preStart + 1, preStart + index - inStart, inorder, inStart, index - 1);
+        root.right = buildTree(preorder, preStart + index - inStart + 1, preEnd, inorder, index + 1, inEnd);
+        return root;
+    }
+
+    private int findIndex(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
+
