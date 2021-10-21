@@ -565,3 +565,39 @@ class Solution {
 }
 ```
 
+
+
+### 二叉树展开为链表
+
+- 题目： 给你二叉树的根节点root，请你将它展开为一个单链表：
+  - 展开后的单链表应该同样使用TreeNode，其中right指针指向链表中的下一个节点，而左指针始终为null。
+  - 展开后的单链表应该与二叉树先序遍历顺序相同。
+- 思路： 先序遍历一遍，用pre节点已经转成链表的最后一个节点，然后按照先序遍历的顺序设置对应的指针即可。
+
+```java
+class Solution {
+    public void flatten(TreeNode root) {
+        if (root == null) {
+            return ;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        TreeNode pre = null;
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            if (pre != null) {
+                pre.left = null;
+                pre.right = cur;
+            }
+            if (cur.right != null) {
+                stack.push(cur.right);
+            }
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+            pre = cur;
+        }
+    }
+}
+```
+
