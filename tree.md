@@ -647,3 +647,44 @@ public class Codec {
 }
 ```
 
+
+
+### 路径总和Ⅲ
+
+- 题目：给定一个二叉树的根节点 `root` ，和一个整数 `targetSum` ，求该二叉树里节点值之和等于 `targetSum` 的 **路径** 的数目。**路径** 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）
+- 思路： DFS。可以分为两个部分，第一部分是从某个节点开始查找以该节点为根的所有路径和的数目；第二部分是遍历整棵树，从每个节点开始重复计算第一部分。
+
+```java
+class Solution {
+    private int result = 0;
+
+    public int pathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return 0;
+        }
+        preorder(root, targetSum);
+        return result;
+    }
+
+    private void preorder(TreeNode root, int targetSum) {
+        if (root == null) {
+            return ;
+        }
+        dfs(root, targetSum);
+        preorder(root.left, targetSum);
+        preorder(root.right, targetSum);
+    }
+
+    private void dfs(TreeNode root, int targetSum) {
+        if (root == null) {
+            return ;
+        }
+        if (root.val == targetSum) {
+            result++;
+        }
+        dfs(root.left, targetSum - root.val);
+        dfs(root.right, targetSum - root.val);
+    }
+}
+```
+
