@@ -688,3 +688,31 @@ class Solution {
 }
 ```
 
+
+
+### 把二叉搜索树转换为累加树
+
+- 题目： 给出二叉 搜索 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 node 的新值等于原树中大于或等于 node.val 的值之和。![image-20211026222832713](C:\Users\yuanzhu\AppData\Roaming\Typora\typora-user-images\image-20211026222832713.png)
+- 思路：可以将这棵二叉搜索树从大到小遍历一遍，在遍历的过程中记住当前累加和，而某个节点的值就等于上个累加和加上自身的值，更新累加和并遍历下一个即可。二叉搜索树的一个特点就是中序遍历节点从小到大有序，而反向中序遍历即可得到从大到小的结果。
+
+```java
+class Solution {
+    private int sum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        traverse(root);
+        return root;
+    }
+
+    private void traverse(TreeNode root) {
+        if (root == null) {
+            return ;
+        }
+        traverse(root.right);
+        sum += root.val;
+        root.val = sum;
+        traverse(root.left);
+    }
+}
+```
+
