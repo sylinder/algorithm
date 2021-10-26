@@ -716,3 +716,31 @@ class Solution {
 }
 ```
 
+
+
+### 二叉树的直径
+
+- 题目： 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
+- 思路：二叉树的直径等于左子树的最大深度加上右子树的最大深度。自顶向下求会造成很多重复计算的问题，复杂度较高，因此可以仿照后序遍历，自底向上地进行计算。
+
+```java
+class Solution {
+    private int result = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        dfs(root);
+        return result;
+    }
+
+    private int dfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        result = Math.max(result, left + right);
+        return Math.max(left, right) + 1;
+    }
+}
+```
+
