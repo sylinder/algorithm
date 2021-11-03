@@ -773,3 +773,37 @@ class Solution {
 }
 ```
 
+
+
+### 二叉树中的最大路径和
+
+- 题目： 路径 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中 至多出现一次 。该路径 至少包含一个 节点，且不一定经过根节点。**路径和** 是路径中各节点值的总和。给你一个二叉树的根节点 `root` ，返回其 **最大路径和** 。
+
+- 思路： 对于二叉树中的某个节点来说，它需要做的事情主要有两件：1. 判断以自身为根节点的子树中是否存在当前最大路径和，有的话记录下来。 2. 将经过根节点的某条最大的路径和（根节点+左子树 或者 根节点+ 左子树 或者 根节点本身）返回给父节点。
+
+  - 第一件事：主要存在以下情况： 如果左右子树的路径和都大于0，则该节点的最大路径和为: `root.val + leftValue + rightValue`。如果左右子树中有一个大于0一个小于0的，那该节点最大路径和为`root.val + max(leftValue, rightValue)`。如果左右子树都小于0，那么该节点的最大路径和为`root.val`。这些情况可以统一写成`root.val+ max(0, leftValue) + max(0, rightValue)`。
+  - 第二件事：因为要返回跟父节点，所以只能在左右子树中取一个或者0个。如果都左右子树都小于0，那么取0个，返回根节点自身；如果左右子树有大于0的，那么取最大的那个。即：`return root.val + max(0, max(leftValue, rightValue))`。
+
+  由上面的分析可知，先遍历左右子树，最后才遍历根节点，因此采用后续遍历的顺序。
+
+```java
+class Solution {
+    private int result = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        postorder(root);
+        return result;
+    }
+
+    private int postorder(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftValue = postorder(root.left);
+        int rightValue = postorder(root.right);
+        result = Math.max(result, root.val + Math.max(0, leftValue) + Math.max(0, rightValue));
+        return root.val + Math.max(0, Math.max(leftValue, rightValue));
+    }
+}
+```
+
